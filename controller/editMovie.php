@@ -51,6 +51,7 @@
                     </div>
                     <div class="card-action">
                         <a href="https://imdb.com/title/<?php echo $imdb; ?>">IMDb Page</a>
+                        <a href="/index.php?p=player&id=<?php echo $id; ?>&type=movie">Play Movie</a>
                     </div>
                 </div>
             </div>
@@ -72,6 +73,7 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Path</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
 
@@ -86,8 +88,10 @@
                         echo $frow[2];
                         echo '</td><td>';
                         echo $frow[1];
-                        echo '</td><td>';
+                        echo '</td><td style="max-width: 35vw; overflow:auto;">';
                         echo $frow[0];
+                        echo '</td><td>';
+                        echo '<center><a style="color:red;" href="/php/deleteFile.php?id='.$row[0].'&srcID='.$id.'"><i class="material-icons">delete</i></a></center>';
                         echo '</td></tr>';
                     }
                 }
@@ -102,37 +106,19 @@
             <h5>Add a URL to a file:</h5>
             <h7>(Must be publicly accessible)</h7>
 
-            <div class="row" style="color: white;">
-                <form id="addURL" class="col s12">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">insert_link</i>
-                        <input id="insert_link" style="color: white;" required type="text" class="validate">
-                        <label for="insert_link">URL to resource</label>
-                    </div>
-
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix">mode_comment</i>
-                        <input id="mode_comment" style="color: white;" required type="tel" class="validate">
-                        <label for="mode_comment">Display name ("720p", "English", etc)</label>
-                    </div>
-
-                    <div class="input-field col s6" style="color: white;">
-                        <select>
-                            <option value="" disabled selected>Choose your option</option>
-                            <option value="1">video/mp4</option>
-                            <option value="2">captions</option>
-                            <option value="3">video/webm</option>
-                        </select>
-                        <label>MIME Type</label>
-                    </div>
-
+            <div class="row" style="color: white; !important">
+                <form id="addURL" action="/php/addURL.php" method="post" enctype="multipart/form-data">
                     <center>
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Add URL
-                        <i class="material-icons right">insert_link</i>
-                    </button>
+                        <input style="color: white;" type="text" name="link" required="required" placeholder="URL to file" id="link"><br><br>
+                        
+                        <input style="color: white;" type="text" name="description" required="required" placeholder="Display name (720p, English, etc)" id="description"><br><br>
+                        
+                        <input type="hidden" id="movieID" name="movieID" value="<?php echo $_GET["id"]; ?>">
+
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Add File
+                            <i class="material-icons right">cloud_upload</i>
+                        </button>
                     </center>
-                </div>
                 </form>
             </div>
         </div>
